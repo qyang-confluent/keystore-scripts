@@ -1,0 +1,20 @@
+{
+  "CN": "qyang-hp",
+  "hosts": [
+    "*.qyang.confluent.demo",
+    "*.confluent.svc.cluster.local",
+    "*.zookeeper.confluent.svc.cluster.local",
+    "*.kafka.confluent.svc.cluster.local"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "US",
+      "ST": "VA",
+      "L": "Reston"
+    }
+  ]
+}
