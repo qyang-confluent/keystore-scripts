@@ -53,4 +53,55 @@ openssl x509 -in $TUTORIAL_HOME/generated/cacerts.pem -text -noout
 ## Create a client Certificate 
 
 ```
+cfssl gencert -ca=$TUTORIAL_HOME/generated/cacerts.pem \
+-ca-key=$TUTORIAL_HOME/generated/rootCAkey.pem \
+-config=$TUTORIAL_HOME/ca-config.json \
+-profile=client $TUTORIAL_HOME/server-domain.json | cfssljson -bare $TUTORIAL_HOME/generated/client
+```
+
+## Create Java JKS keystore
+```
+server=client.pem
+serverKey=client-key.pem
+ca=cacerts.pem
+caKey=rootCAkey.pem
+password=testme
+
+openssl x509 -in ${server} -text -noout
+
+openssl pkcs12 -export \
+	-in "${ca}" \
+	-inkey "${caKey}" \
+	-out ./jks/ca-pkcs.p12 \
+	-name testCA \
+	-passout pass:mykeypassword
+
+keytool -importkeystore \
+	-deststorepass "${password}" \
+	-destkeypass "${password}" \
+	-destkeystore ./jks/keystore.jks \
+	-deststoretype pkcs12 \
+	-srckeystore ./jks/ca-pkcs.p12 \
+	-srcstoretype PKCS12 \
+	-srcstorepass mykeypassword
+
+openssl pkcs12 -export \
+	-in "${server}" \
+	-inkey "${serverKey}" \
+	-out ./jks/pkcs.p12 \
+	-name testService \
+	-passout pass:mykeypassword
+
+keytool -importkeystore \
+	-deststorepass "${password}" \
+	-destkeypass "${password}" \
+	-destkeystore ./jks/keystore.jks \
+	-deststoretype pkcs12 \
+	-srckeystore ./jks/pkcs.p12 \
+	-srcstoretype PKCS12 \
+	-srcstorepass mykeypassword
+
+echo "Validate Keystore"
+keytool -list -v -keystore ./jks/keystore.jks -storepass "${password}"
+#you can run this to automate it sh ../gen-server-jks.sh client.pem client-key.pem testme cacerts.pem rootCAkey.pem
 ```
