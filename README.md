@@ -107,7 +107,7 @@ keytool -list -v -keystore ./jks/keystore.jks -storepass "${password}"
 ```
 
 ## Test the client certificate
-- Upload the cacert.pem to Confluent Cloud to create a new workload identity
+- Upload the cacert.pem to Confluent Cloud to create a new workload provider.
 - create a identity pool and give the pool the access the kafka cluster(dedicated)
 - run the client with certificate
 ```
