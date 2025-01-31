@@ -105,3 +105,23 @@ echo "Validate Keystore"
 keytool -list -v -keystore ./jks/keystore.jks -storepass "${password}"
 #you can run this to automate it sh ../gen-server-jks.sh client.pem client-key.pem testme cacerts.pem rootCAkey.pem
 ```
+
+## Test the client certificate
+- Upload the cacert.pem to Confluent Cloud to create a new workload identity
+- create a identity pool and give the pool the access the kafka cluster(dedicated)
+- run the client with certificate
+```
+kafka-topics --bootstrap-server $bootstrap_server \
+  --command-config mtls.config \
+  --list
+```
+- the mtls.config
+```
+security.protocol=SSL
+ssl.keystore.location=../jks/keystore.jks
+ssl.keystore.type=JKS
+ssl.keystore.password=testme
+ssl.key.password=testme
+```
+
+
