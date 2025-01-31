@@ -1,4 +1,4 @@
-# Create one certificate for all components
+# Test Confluent Cloud MTLS with self generated CA Cert and Certificate 
 
 When testing, it's often helpful to generate your own certificates to validate the architecture and deployment.
 
