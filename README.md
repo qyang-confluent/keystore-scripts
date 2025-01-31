@@ -6,7 +6,7 @@ In this scenario workflow, you'll create one client certificate. You'll use the 
 
 Set the `TUTORIAL_HOME` path to ease directory references in the commands you run:
 ```
-export TUTORIAL_HOME=<Git repository path>/assets/certs
+export TUTORIAL_HOME=./
 ```
 
 This scenario workflow requires the following CLI tools to be available on the machine you
