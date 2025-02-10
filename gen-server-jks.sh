@@ -38,6 +38,8 @@ keytool -importkeystore \
 	-srcstoretype PKCS12 \
 	-srcstorepass mykeypassword
 
+rm -f ./jks/keystore.jks
+
 openssl pkcs12 -export \
 	-in "${server}" \
 	-inkey "${serverKey}" \
