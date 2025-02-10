@@ -6,6 +6,12 @@ ca=$4
 caKey=$5
 password=$3
 
+server=./generated/client.pem
+serverKey=./generated/client-key.pem
+ca=./generated/cacerts.pem
+caKey=./generated/rootCAkey.pem
+password=testme
+
 if [ -e ./jks/keystore.jks ];then
   rm  ./jks/keystore.jks
 else
