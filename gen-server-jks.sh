@@ -56,5 +56,7 @@ keytool -importkeystore \
 	-srcstoretype PKCS12 \
 	-srcstorepass mykeypassword
 
+keytool -import -trustcacerts -noprompt -alias "testCA" -file "${ca}" -keystore "./jks/keystore.jks" -deststorepass "${password}" 
+
 echo "Validate Keystore"
 keytool -list -v -keystore ./jks/keystore.jks -storepass "${password}"
