@@ -62,29 +62,13 @@ cfssl gencert -ca=$TUTORIAL_HOME/generated/cacerts.pem \
 
 ## Create Java JKS keystore
 ```
-server=client.pem
-serverKey=client-key.pem
-ca=cacerts.pem
-caKey=rootCAkey.pem
+server=./generated/client.pem
+serverKey=./generated/client-key.pem
+ca=./generated/cacerts.pem
+caKey=./generated/rootCAkey.pem
 password=testme
 
 openssl x509 -in ${server} -text -noout
-
-openssl pkcs12 -export \
-	-in "${ca}" \
-	-inkey "${caKey}" \
-	-out ./jks/ca-pkcs.p12 \
-	-name testCA \
-	-passout pass:mykeypassword
-
-keytool -importkeystore \
-	-deststorepass "${password}" \
-	-destkeypass "${password}" \
-	-destkeystore ./jks/keystore.jks \
-	-deststoretype pkcs12 \
-	-srckeystore ./jks/ca-pkcs.p12 \
-	-srcstoretype PKCS12 \
-	-srcstorepass mykeypassword
 
 openssl pkcs12 -export \
 	-in "${server}" \
@@ -101,6 +85,8 @@ keytool -importkeystore \
 	-srckeystore ./jks/pkcs.p12 \
 	-srcstoretype PKCS12 \
 	-srcstorepass mykeypassword
+
+keytool -import -trustcacerts -noprompt -alias "testCA" -file "${ca}" -keystore "./jks/keystore.jks" -deststorepass "${password}"
 
 echo "Validate Keystore"
 keytool -list -v -keystore ./jks/keystore.jks -storepass "${password}"
