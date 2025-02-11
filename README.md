@@ -65,7 +65,6 @@ cfssl gencert -ca=$TUTORIAL_HOME/generated/cacerts.pem \
 server=./generated/client.pem
 serverKey=./generated/client-key.pem
 ca=./generated/cacerts.pem
-caKey=./generated/rootCAkey.pem
 password=testme
 
 openssl x509 -in ${server} -text -noout
